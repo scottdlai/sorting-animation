@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# create-react-app bug
+/.eslintcache
+
 # testing
 /coverage
 
