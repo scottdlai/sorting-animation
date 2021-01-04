@@ -1,6 +1,4 @@
-import React, { Reducer, useReducer, useState } from 'react';
-import bubbleSort from '../algorithms/bubbleSort';
-import selectionSort from '../algorithms/selectionSort';
+import React, { Reducer, useEffect, useReducer, useState } from 'react';
 import random from '../util/random';
 import Body from './Body';
 import CustomBar from './CustomBar';
@@ -12,7 +10,8 @@ export type Action =
   | { name: 'comparing'; i: number; j: number }
   | { name: 'resuming'; indices: number[] }
   | { name: 'pivoting'; index: number }
-  | { name: 'resize'; newSize: number };
+  | { name: 'resize'; newSize: number }
+  | { name: 'sorting'; index: number };
 
 export interface Bar {
   readonly height: number;
@@ -32,6 +31,7 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
   if (action.name === 'resize') {
     return getRandomBars(action.newSize);
   }
+
   if (action.name === 'comparing') {
     const { i, j } = action;
     return prevBars.map((bar, k) => {
@@ -65,37 +65,53 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
   }
   const { index } = action;
 
+  const newStatus = action.name === 'pivoting' ? 'pivot' : 'sorted';
+
   return prevBars.map((bar, k) => {
-    return { ...bar, status: index === k ? 'pivot' : bar.status };
+    return { ...bar, status: index === k ? newStatus : bar.status };
   });
 };
 
 const SortingAnimation = () => {
   const [isSorting, setIsSorting] = useState(false);
+  const [animations, setAnimations] = useState<Action[]>([]);
   const [bars, barsDispatch] = useReducer<Reducer<Bar[], Action>>(
     barsReducer,
     getRandomBars(8)
   );
 
   const resizeBars = (newSize: number) => {
-    console.log(newSize);
+    setAnimations([]);
     barsDispatch({ name: 'resize', newSize });
   };
 
-  const startSorting = () => {
-    setIsSorting(true);
-    const actions = selectionSort([...bars]);
+  const finishedSorting = () => isSorting && animations.length === 0;
 
-    console.log(actions);
-    const animations = setInterval(() => {
-      if (actions.length === 0) {
-        clearInterval(animations);
+  const isUserPausing = () => !isSorting && animations.length === 0;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (finishedSorting()) {
         setIsSorting(false);
         return;
       }
-      barsDispatch(actions[0]);
-      actions.shift();
-    }, (8 * 250) / bars.length);
+
+      if (animations.length === 0 || !isSorting) {
+        return;
+      }
+
+      const [current, ...rest] = animations;
+      barsDispatch(current);
+      setAnimations(rest);
+    }, (8 * 200) / bars.length);
+
+    return () => clearTimeout(timer);
+  }, [animations, isSorting]);
+
+  const toggleSorting = (algo: (bars: Bar[]) => Action[]) => {
+    if (animations.length === 0 && !isSorting) {
+      setAnimations(algo([...bars]));
+    }
+    setIsSorting(!isSorting);
   };
 
   return (
@@ -103,7 +119,7 @@ const SortingAnimation = () => {
       <CustomBar
         resizeBars={resizeBars}
         isSorting={isSorting}
-        startSorting={startSorting}
+        toggleSorting={toggleSorting}
       />
       <Body bars={bars} />{' '}
     </>
