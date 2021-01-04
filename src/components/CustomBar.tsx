@@ -10,34 +10,22 @@ interface CustomBarProp {
   resizeBars: (newSize: number) => void;
 }
 
-const algos = ['bubble', 'selection'] as const;
+const algos = ['bubble sort', 'selection sort'] as const;
 type Algo = typeof algos[number];
 
 const getAlgo = (algo: Algo) => {
-  if (algo === 'bubble') {
-    return bubbleSort;
-  } else if (algo === 'selection') {
-    return selectionSort;
-  }
+  const nameToAlgo = {
+    'bubble sort': bubbleSort,
+    'selection sort': selectionSort,
+  };
 
-  return selectionSort;
+  return nameToAlgo[algo];
 };
 
 const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
   const [numberOfBars, setNumberOfBars] = useState(8);
-  const [algo, setAlgo] = useState<Algo>('bubble');
+  const [algo, setAlgo] = useState<Algo>('bubble sort');
 
-  const changeAlgo = (newAlgo: string) => {
-    if (newAlgo === 'bubble') {
-      setAlgo('bubble');
-      return;
-    } else if (newAlgo === 'selection') {
-      setAlgo('selection');
-      return;
-    }
-
-    setAlgo('bubble');
-  };
   return (
     <div
       style={{
@@ -63,7 +51,7 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
       </div>
       <DropdownButton
         title={algo}
-        onSelect={(algo) => changeAlgo(algo ?? '')}
+        onSelect={(algo) => setAlgo((algo as Algo) ?? algos[0])}
         disabled={isSorting}
       >
         {algos.map((algo) => (
