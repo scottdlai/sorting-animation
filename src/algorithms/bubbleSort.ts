@@ -16,8 +16,9 @@ const bubbleSort = (bars: Bar[]) => {
       // resume all the colors
       steps.push({ name: 'resuming', indices: [j, j + 1] });
     }
+    steps.push({ name: 'sorting', index: bars.length - i - 1 });
   }
-  console.log(bars.map(({ height }) => height));
+  steps.push({ name: 'sorting', index: 0 });
   return steps;
 };
 

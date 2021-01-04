@@ -18,8 +18,11 @@ const selectionSort = (bars: Bar[]) => {
     // swap
     steps.push({ name: 'swapping', i, j: minIndex });
     swap(bars, i, minIndex);
-    steps.push({ name: 'resuming', indices: [i, minIndex] });
+    steps.push({ name: 'resuming', indices: [minIndex] });
+    // Elements at index `i` is in a correct order.
+    steps.push({ name: 'sorting', index: i });
   }
+  steps.push({ name: 'sorting', index: bars.length - 1 });
   return steps;
 };
 
