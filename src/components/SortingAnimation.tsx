@@ -87,7 +87,8 @@ const SortingAnimation = () => {
 
   const finishedSorting = () => isSorting && animations.length === 0;
 
-  const isUserPausing = () => !isSorting && animations.length === 0;
+  const isNotInProgress = () => !isSorting && animations.length === 0;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (finishedSorting()) {
@@ -108,7 +109,7 @@ const SortingAnimation = () => {
   }, [animations, isSorting]);
 
   const toggleSorting = (algo: (bars: Bar[]) => Action[]) => {
-    if (animations.length === 0 && !isSorting) {
+    if (isNotInProgress()) {
       setAnimations(algo([...bars]));
     }
     setIsSorting(!isSorting);
