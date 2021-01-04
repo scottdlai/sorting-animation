@@ -1,6 +1,6 @@
-import { access } from 'fs';
 import React, { Reducer, useReducer, useState } from 'react';
 import bubbleSort from '../algorithms/bubbleSort';
+import selectionSort from '../algorithms/selectionSort';
 import random from '../util/random';
 import Body from './Body';
 import CustomBar from './CustomBar';
@@ -72,9 +72,6 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
 
 const SortingAnimation = () => {
   const [isSorting, setIsSorting] = useState(false);
-  const [sortAlgo, setSortAlgo] = useState<(bar: Bar[]) => Action[]>(
-    bubbleSort
-  );
   const [bars, barsDispatch] = useReducer<Reducer<Bar[], Action>>(
     barsReducer,
     getRandomBars(8)
@@ -87,7 +84,7 @@ const SortingAnimation = () => {
 
   const startSorting = () => {
     setIsSorting(true);
-    const actions = sortAlgo([...bars]);
+    const actions = selectionSort([...bars]);
 
     console.log(actions);
     const animations = setInterval(() => {
@@ -98,7 +95,7 @@ const SortingAnimation = () => {
       }
       barsDispatch(actions[0]);
       actions.shift();
-    }, 250);
+    }, (8 * 250) / bars.length);
   };
 
   return (
