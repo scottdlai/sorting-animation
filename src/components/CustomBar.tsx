@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, DropdownButton, Form } from 'react-bootstrap';
 import bubbleSort from '../algorithms/bubbleSort';
 import mergeSort from '../algorithms/mergeSort';
@@ -28,6 +28,8 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
   const [numberOfBars, setNumberOfBars] = useState(32);
   const [algo, setAlgo] = useState<Algo>('bubble sort');
 
+  useEffect(() => resizeBars(numberOfBars), [numberOfBars]);
+
   return (
     <div
       style={{
@@ -45,9 +47,7 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
           value={numberOfBars}
           disabled={isSorting}
           onChange={({ target: { value } }) => {
-            const newNumberOfBars = Number(value);
-            setNumberOfBars(newNumberOfBars);
-            resizeBars(newNumberOfBars);
+            setNumberOfBars(Number(value));
           }}
         />
       </div>

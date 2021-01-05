@@ -87,7 +87,7 @@ const SortingAnimation = () => {
   const [animations, setAnimations] = useState<Action[]>([]);
   const [bars, barsDispatch] = useReducer<Reducer<Bar[], Action>>(
     barsReducer,
-    getRandomBars(32)
+    []
   );
 
   const resizeBars = (newSize: number) => {
