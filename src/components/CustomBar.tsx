@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, DropdownButton, Form } from 'react-bootstrap';
 import bubbleSort from '../algorithms/bubbleSort';
 import mergeSort from '../algorithms/mergeSort';
+import quickSort from '../algorithms/quickSort';
 import selectionSort from '../algorithms/selectionSort';
 import { Action, Bar } from './SortingAnimation';
 
@@ -11,7 +12,12 @@ interface CustomBarProp {
   resizeBars: (newSize: number) => void;
 }
 
-const algos = ['bubble sort', 'selection sort', 'merge sort'] as const;
+const algos = [
+  'bubble sort',
+  'selection sort',
+  'merge sort',
+  'quick sort',
+] as const;
 type Algo = typeof algos[number];
 
 const getAlgo = (algo: Algo) => {
@@ -19,6 +25,7 @@ const getAlgo = (algo: Algo) => {
     'bubble sort': bubbleSort,
     'selection sort': selectionSort,
     'merge sort': mergeSort,
+    'quick sort': quickSort,
   };
 
   return nameToAlgo[algo];
@@ -41,9 +48,9 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
         <Form.Label>Size: {numberOfBars}</Form.Label>
         <Form.Control
           type='range'
-          min={8}
-          max={64}
-          step={2}
+          min={16}
+          max={96}
+          step={4}
           value={numberOfBars}
           disabled={isSorting}
           onChange={({ target: { value } }) => {
