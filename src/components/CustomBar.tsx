@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, DropdownButton, Form } from 'react-bootstrap';
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  Dropdown,
+  DropdownButton,
+  Form,
+  Navbar,
+} from 'react-bootstrap';
+import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import bubbleSort from '../algorithms/bubbleSort';
 import mergeSort from '../algorithms/mergeSort';
 import quickSort from '../algorithms/quickSort';
@@ -38,14 +47,22 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
   useEffect(() => resizeBars(numberOfBars), [numberOfBars]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div>
-        <Form.Label>Size: {numberOfBars}</Form.Label>
+    <Navbar expand='lg' bg='dark' variant='dark'>
+      <Navbar.Toggle aria-controls='basic-navbar-nav' />
+      <NavbarCollapse>
+        <Form className='mr-2' inline>
+          <Form.Control
+            as='select'
+            value={algo}
+            onChange={(algo) => setAlgo(algo.target.value as Algo)}
+            disabled={isSorting}
+            className='mr-2'
+          >
+            {algos.map((algo) => (
+              <option key={algo}>{algo}</option>
+            ))}
+          </Form.Control>
+        </Form>
         <Form.Control
           type='range'
           min={16}
@@ -56,30 +73,27 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
           onChange={({ target: { value } }) => {
             setNumberOfBars(Number(value));
           }}
+          className='mr-2'
         />
-      </div>
-      <DropdownButton
-        title={algo}
-        onSelect={(algo) => setAlgo((algo as Algo) ?? algos[0])}
-        disabled={isSorting}
-      >
-        {algos.map((algo) => (
-          <Dropdown.Item key={algo} eventKey={algo}>
-            {algo}
-          </Dropdown.Item>
-        ))}
-      </DropdownButton>
-      <Button onClick={() => toggleSorting(getAlgo(algo))}>
-        {isSorting ? 'Stop' : 'Sort'}
-      </Button>
-      <Button
-        variant='secondary'
-        onClick={() => resizeBars(numberOfBars)}
-        disabled={isSorting}
-      >
-        Regenerate
-      </Button>
-    </div>
+        <ButtonGroup className='mr-2'>
+          <Button
+            variant='info'
+            onClick={() => resizeBars(numberOfBars)}
+            disabled={isSorting}
+          >
+            Regenerate
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button
+            variant={isSorting ? 'danger' : 'success'}
+            onClick={() => toggleSorting(getAlgo(algo))}
+          >
+            {isSorting ? 'Stop' : 'Sort'}
+          </Button>
+        </ButtonGroup>
+      </NavbarCollapse>
+    </Navbar>
   );
 };
 
