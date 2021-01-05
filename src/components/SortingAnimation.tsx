@@ -1,3 +1,4 @@
+import { access } from 'fs';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 import random from '../util/random';
 import Body from './Body';
@@ -11,7 +12,8 @@ export type Action =
   | { name: 'resuming'; indices: number[] }
   | { name: 'pivoting'; index: number }
   | { name: 'resize'; newSize: number }
-  | { name: 'sorting'; index: number };
+  | { name: 'sorting'; index: number }
+  | { name: 'assigning'; index: number; newBar: Bar };
 
 export interface Bar {
   readonly height: number;
@@ -63,6 +65,14 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
       return { ...bar, status: indices.includes(k) ? 'unsorted' : bar.status };
     });
   }
+
+  if (action.name === 'assigning') {
+    const { index, newBar } = action;
+    return prevBars.map((bar, k) => {
+      return k === index ? newBar : bar;
+    });
+  }
+
   const { index } = action;
 
   const newStatus = action.name === 'pivoting' ? 'pivot' : 'sorted';
@@ -77,7 +87,7 @@ const SortingAnimation = () => {
   const [animations, setAnimations] = useState<Action[]>([]);
   const [bars, barsDispatch] = useReducer<Reducer<Bar[], Action>>(
     barsReducer,
-    getRandomBars(8)
+    getRandomBars(32)
   );
 
   const resizeBars = (newSize: number) => {
