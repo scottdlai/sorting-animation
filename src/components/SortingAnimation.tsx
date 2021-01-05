@@ -1,4 +1,3 @@
-import { access } from 'fs';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 import random from '../util/random';
 import Body from './Body';
@@ -37,9 +36,11 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
   if (action.name === 'comparing') {
     const { i, j } = action;
     return prevBars.map((bar, k) => {
+      const newStatus =
+        [i, j].includes(k) && bar.status !== 'pivot' ? 'compared' : bar.status;
       return {
         ...bar,
-        status: k === i || k === j ? 'compared' : bar.status,
+        status: newStatus,
       };
     });
   }
@@ -113,7 +114,7 @@ const SortingAnimation = () => {
       const [current, ...rest] = animations;
       barsDispatch(current);
       setAnimations(rest);
-    }, (8 * 200) / bars.length);
+    }, (8 * 125) / bars.length);
 
     return () => clearTimeout(timer);
   }, [animations, isSorting]);
