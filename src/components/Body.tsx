@@ -26,14 +26,14 @@ const Body = ({ bars }: BodyProps) => {
         display: 'flex',
         justifyContent: 'space-evenly',
         alignItems: 'flex-end',
-        height: '18em', // To fix issue with merge sort
+        height: '36em', // To fix issue with merge sort
       }}
     >
       {bars.map((bar, i) => (
         <div
           key={i}
           style={{
-            height: `${bar.height / 8}em`,
+            height: `${bar.height / 4}em`,
             width: `${getBarSize()}em`,
             backgroundColor: style[bar.status],
             color: 'white',
