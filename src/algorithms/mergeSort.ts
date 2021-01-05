@@ -5,7 +5,7 @@ const merge = (
   start: number,
   mid: number,
   end: number,
-  animatons: Action[]
+  animations: Action[]
 ) => {
   let l1 = mid - start + 1;
   let l2 = end - (mid + 1) + 1;
@@ -22,14 +22,19 @@ const merge = (
   let k = start;
 
   while (i < l1 && j < l2) {
-    animatons.push({ name: 'comparing', i: start + i, j: mid + 1 + j });
-    animatons.push({ name: 'resuming', indices: [start + i, mid + 1 + j] });
+    animations.push({ name: 'comparing', i: start + i, j: mid + 1 + j });
     if (l[i].height < r[j].height) {
-      animatons.push({ name: 'assigning', index: k, newBar: l[i] });
+      animations.push({ name: 'resuming', indices: [start + i, k] });
+      animations.push({
+        name: 'assigning',
+        index: k,
+        newBar: { ...l[i], status: 'unsorted' },
+      });
       bars[k] = l[i];
       i += 1;
     } else {
-      animatons.push({ name: 'assigning', index: k, newBar: r[j] });
+      animations.push({ name: 'resuming', indices: [mid + 1 + j, k] });
+      animations.push({ name: 'assigning', index: k, newBar: r[j] });
       bars[k] = r[j];
       j += 1;
     }
@@ -37,14 +42,22 @@ const merge = (
   }
 
   while (i < l1) {
-    animatons.push({ name: 'assigning', index: k, newBar: l[i] });
+    animations.push({
+      name: 'assigning',
+      index: k,
+      newBar: { ...l[i], status: 'unsorted' },
+    });
     bars[k] = l[i];
     k += 1;
     i += 1;
   }
 
   while (j < l2) {
-    animatons.push({ name: 'assigning', index: k, newBar: r[j] });
+    animations.push({
+      name: 'assigning',
+      index: k,
+      newBar: { ...r[j], status: 'unsorted' },
+    });
     bars[k] = r[j];
     k += 1;
     j += 1;
@@ -61,7 +74,6 @@ const mergeSortHelper = (
     return;
   }
   const mid = Math.floor((start + end) / 2);
-  console.log(start, mid, end);
   mergeSortHelper(bars, start, mid, animations);
   mergeSortHelper(bars, mid + 1, end, animations);
   merge(bars, start, mid, end, animations);
@@ -70,6 +82,9 @@ const mergeSortHelper = (
 const mergeSort = (bars: Bar[]): Action[] => {
   const animations: Action[] = [];
   mergeSortHelper(bars, 0, bars.length - 1, animations);
+  for (let k = 0; k < bars.length; k++) {
+    animations.push({ name: 'sorting', index: k });
+  }
   return animations;
 };
 
