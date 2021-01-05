@@ -3,7 +3,7 @@ import random from '../util/random';
 import Body from './Body';
 import CustomBar from './CustomBar';
 
-type Status = 'unsorted' | 'sorted' | 'pivot' | 'compared' | 'swapped';
+type Status = 'unsorted' | 'sorted' | 'pivot' | 'compared';
 
 export type Action =
   | { name: 'swapping'; i: number; j: number }
@@ -49,11 +49,11 @@ const barsReducer = (prevBars: Bar[], action: Action): Bar[] => {
     const { i, j } = action;
     return prevBars.map((bar, k) => {
       if (k === i) {
-        return { ...prevBars[j], status: 'swapped' };
+        return prevBars[j];
       }
 
       if (k === j) {
-        return { ...prevBars[i], status: 'swapped' };
+        return prevBars[i];
       }
 
       return bar;
