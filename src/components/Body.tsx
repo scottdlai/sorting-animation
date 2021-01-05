@@ -11,7 +11,7 @@ const Body = ({ bars }: BodyProps) => {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         alignItems: 'flex-end',
         height: '18em', // To fix issue with merge sort
       }}
