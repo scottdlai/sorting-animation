@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  ButtonGroup,
-  ButtonToolbar,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Navbar,
-} from 'react-bootstrap';
+import { Button, ButtonGroup, Form, Navbar } from 'react-bootstrap';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import bubbleSort from '../algorithms/bubbleSort';
 import mergeSort from '../algorithms/mergeSort';
