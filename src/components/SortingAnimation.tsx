@@ -133,7 +133,7 @@ const SortingAnimation = () => {
         isSorting={isSorting}
         toggleSorting={toggleSorting}
       />
-      <Body bars={bars} />{' '}
+      <Body bars={bars} />
     </>
   );
 };
