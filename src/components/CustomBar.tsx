@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Dropdown, DropdownButton, Form } from 'react-bootstrap';
 import bubbleSort from '../algorithms/bubbleSort';
+import mergeSort from '../algorithms/mergeSort';
 import selectionSort from '../algorithms/selectionSort';
 import { Action, Bar } from './SortingAnimation';
 
@@ -10,20 +11,21 @@ interface CustomBarProp {
   resizeBars: (newSize: number) => void;
 }
 
-const algos = ['bubble sort', 'selection sort'] as const;
+const algos = ['bubble sort', 'selection sort', 'merge sort'] as const;
 type Algo = typeof algos[number];
 
 const getAlgo = (algo: Algo) => {
   const nameToAlgo = {
     'bubble sort': bubbleSort,
     'selection sort': selectionSort,
+    'merge sort': mergeSort,
   };
 
   return nameToAlgo[algo];
 };
 
 const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
-  const [numberOfBars, setNumberOfBars] = useState(8);
+  const [numberOfBars, setNumberOfBars] = useState(32);
   const [algo, setAlgo] = useState<Algo>('bubble sort');
 
   return (
