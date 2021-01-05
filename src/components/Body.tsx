@@ -11,8 +11,9 @@ const Body = ({ bars }: BodyProps) => {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         alignItems: 'flex-end',
+        height: '18em', // To fix issue with merge sort
       }}
     >
       {bars.map((bar, i) => (
@@ -20,10 +21,9 @@ const Body = ({ bars }: BodyProps) => {
           key={i}
           style={{
             height: `${bar.height / 8}em`,
-            width: `${32 / bars.length}em`,
+            width: `${64 / bars.length}em`,
             backgroundColor: style[bar.status],
             color: 'white',
-            marginRight: `${16 / bars.length}em`,
           }}
         ></div>
       ))}
