@@ -23,17 +23,12 @@ const merge = (
 
   while (i < l1 && j < l2) {
     animations.push({ name: 'comparing', i: start + i, j: mid + 1 + j });
+    animations.push({ name: 'resuming', indices: [start + i, mid + 1 + j] });
     if (l[i].height < r[j].height) {
-      animations.push({ name: 'resuming', indices: [start + i, k] });
-      animations.push({
-        name: 'assigning',
-        index: k,
-        newBar: { ...l[i], status: 'unsorted' },
-      });
+      animations.push({ name: 'assigning', index: k, newBar: l[i] });
       bars[k] = l[i];
       i += 1;
     } else {
-      animations.push({ name: 'resuming', indices: [mid + 1 + j, k] });
       animations.push({ name: 'assigning', index: k, newBar: r[j] });
       bars[k] = r[j];
       j += 1;
@@ -42,22 +37,14 @@ const merge = (
   }
 
   while (i < l1) {
-    animations.push({
-      name: 'assigning',
-      index: k,
-      newBar: { ...l[i], status: 'unsorted' },
-    });
+    animations.push({ name: 'assigning', index: k, newBar: l[i] });
     bars[k] = l[i];
     k += 1;
     i += 1;
   }
 
   while (j < l2) {
-    animations.push({
-      name: 'assigning',
-      index: k,
-      newBar: { ...r[j], status: 'unsorted' },
-    });
+    animations.push({ name: 'assigning', index: k, newBar: r[j] });
     bars[k] = r[j];
     k += 1;
     j += 1;
@@ -85,6 +72,7 @@ const mergeSort = (bars: Bar[]): Action[] => {
   for (let k = 0; k < bars.length; k++) {
     animations.push({ name: 'sorting', index: k });
   }
+  console.log(animations);
   return animations;
 };
 
