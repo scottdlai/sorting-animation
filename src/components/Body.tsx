@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import style from '../util/setting';
 import { Bar } from './SortingAnimation';
 
@@ -20,10 +20,10 @@ const Body = ({ bars }: BodyProps) => {
           key={i}
           style={{
             height: `${bar.height / 8}em`,
-            width: `${36 / bars.length}em`,
+            width: `${32 / bars.length}em`,
             backgroundColor: style[bar.status],
             color: 'white',
-            marginRight: `${8 / bars.length}em`,
+            marginRight: `${16 / bars.length}em`,
           }}
         ></div>
       ))}
