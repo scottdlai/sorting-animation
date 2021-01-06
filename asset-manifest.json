@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sorting-animation/static/css/main.89e562fa.chunk.css",
-    "main.js": "/sorting-animation/static/js/main.b106d788.chunk.js",
-    "main.js.map": "/sorting-animation/static/js/main.b106d788.chunk.js.map",
+    "main.js": "/sorting-animation/static/js/main.af208dc4.chunk.js",
+    "main.js.map": "/sorting-animation/static/js/main.af208dc4.chunk.js.map",
     "runtime-main.js": "/sorting-animation/static/js/runtime-main.5251faf9.js",
     "runtime-main.js.map": "/sorting-animation/static/js/runtime-main.5251faf9.js.map",
     "static/css/2.20aa2d7b.chunk.css": "/sorting-animation/static/css/2.20aa2d7b.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.20aa2d7b.chunk.css",
     "static/js/2.96c14b03.chunk.js",
     "static/css/main.89e562fa.chunk.css",
-    "static/js/main.b106d788.chunk.js"
+    "static/js/main.af208dc4.chunk.js"
   ]
 }
