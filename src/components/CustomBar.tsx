@@ -35,7 +35,7 @@ const getAlgo = (algo: Algo) => {
 
 const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
   const [numberOfBars, setNumberOfBars] = useState(32);
-  const [algo, setAlgo] = useState<Algo>('bubble sort');
+  const [algo, setAlgo] = useState<Algo>(algos[0]);
 
   useEffect(() => resizeBars(numberOfBars), [numberOfBars]);
 
