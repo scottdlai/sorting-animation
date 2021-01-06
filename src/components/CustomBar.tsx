@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Form, Navbar } from 'react-bootstrap';
+import { Github } from 'react-bootstrap-icons';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import bubbleSort from '../algorithms/bubbleSort';
 import mergeSort from '../algorithms/mergeSort';
@@ -40,6 +41,9 @@ const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
 
   return (
     <Navbar expand='lg' bg='dark' variant='dark'>
+      <Navbar.Brand href='https://github.com/scottdlai/sorting-animation'>
+        <Github size='2em' />
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <NavbarCollapse>
         <Form className='mr-2' inline>
