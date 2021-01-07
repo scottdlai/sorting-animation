@@ -15,22 +15,17 @@ interface CustomBarProp {
 }
 
 const algos = [
-  'bubble sort',
-  'selection sort',
-  'merge sort',
-  'quick sort',
+  'Bubble Sort',
+  'Selection Sort',
+  'Merge Sort',
+  'Quick Sort',
 ] as const;
 type Algo = typeof algos[number];
 
 const getAlgo = (algo: Algo) => {
-  const nameToAlgo = {
-    'bubble sort': bubbleSort,
-    'selection sort': selectionSort,
-    'merge sort': mergeSort,
-    'quick sort': quickSort,
-  };
+  const sortAlgos = [bubbleSort, selectionSort, mergeSort, quickSort];
 
-  return nameToAlgo[algo];
+  return sortAlgos[algos.indexOf(algo)];
 };
 
 const CustomBar = ({ resizeBars, isSorting, toggleSorting }: CustomBarProp) => {
